@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { SyncliteProvider, useSynclite, useValue, useStatus } from '@synclite/react'
+import { NexSyncProvider, useNexSync, useValue, useStatus } from '@nexsync/react'
 import { StatusDot } from './StatusDot'
 
-// ── Inner component — must be inside SyncliteProvider ────────────────────────
+// ── Inner component — must be inside NexSyncProvider ────────────────────────
 
 function PanelInner({
   panelId,
@@ -13,7 +13,7 @@ function PanelInner({
   panelId: string
   accentClass: string
 }) {
-  const db = useSynclite()
+  const db = useNexSync()
   const status = useStatus()
   const noteValue = useValue('demo:note')
   const text = typeof noteValue?.['text'] === 'string' ? noteValue['text'] : ''
@@ -91,7 +91,7 @@ function PanelInner({
   )
 }
 
-// ── Public component — owns its own SyncliteProvider ─────────────────────────
+// ── Public component — owns its own NexSyncProvider ─────────────────────────
 
 export function Panel({
   panelId,
@@ -105,7 +105,7 @@ export function Panel({
   appId: string
 }) {
   return (
-    <SyncliteProvider
+    <NexSyncProvider
       relay={relayUrl}
       appId={appId}
       storage="indexeddb"
@@ -113,6 +113,6 @@ export function Panel({
       debug={false}
     >
       <PanelInner panelId={panelId} accentClass={accentClass} />
-    </SyncliteProvider>
+    </NexSyncProvider>
   )
 }

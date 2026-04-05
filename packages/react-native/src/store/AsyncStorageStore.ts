@@ -1,4 +1,4 @@
-import type { LocalStore, Operation } from '@synclite/core'
+import type { LocalStore, Operation } from '@nexsync/core'
 
 // AsyncStorage is a peer dep — imported via the module specifier React Native resolves
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -10,22 +10,22 @@ const AsyncStorage = require('@react-native-async-storage/async-storage').defaul
   multiGet(keys: readonly string[]): Promise<readonly [string, string | null][]>
 }
 
-const V = 'synclite:v:'  // value store prefix
-const O = 'synclite:op:' // operation log prefix
+const V = 'nexsync:v:'  // value store prefix
+const O = 'nexsync:op:' // operation log prefix
 
 /**
  * LocalStore adapter backed by React Native's AsyncStorage.
- * Pass an instance to `SyncliteProvider` via the `storeInstance` prop to enable
+ * Pass an instance to `NexSyncProvider` via the `storeInstance` prop to enable
  * persistent offline storage on iOS and Android.
  *
  * @example
  * ```tsx
  * import AsyncStorage from '@react-native-async-storage/async-storage'
- * import { SyncliteProvider } from '@synclite/react-native'
+ * import { NexSyncProvider } from '@nexsync/react-native'
  *
- * <SyncliteProvider relay="wss://relay.example.com">
+ * <NexSyncProvider relay="wss://relay.example.com">
  *   <App />
- * </SyncliteProvider>
+ * </NexSyncProvider>
  * // AsyncStorage is used automatically
  * ```
  */

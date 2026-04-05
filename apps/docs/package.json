@@ -1,7 +1,7 @@
 {
-  "name": "@synclite/docs",
+  "name": "@nexsync/docs",
   "version": "0.1.0",
-  "description": "Synclite documentation site",
+  "description": "NexSync documentation site",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",

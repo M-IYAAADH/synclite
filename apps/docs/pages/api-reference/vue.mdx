@@ -1,39 +1,39 @@
 ---
-title: '@synclite/vue'
+title: '@nexsync/vue'
 ---
 
-# @synclite/vue
+# @nexsync/vue
 
-Vue 3 composables for Synclite. All composables return reactive `Ref` values.
+Vue 3 composables for NexSync. All composables return reactive `Ref` values.
 
-## `createSynclite(config)`
+## `createNexSync(config)`
 
 ```typescript
-function createSynclite(config: SyncliteConfig): Plugin
+function createNexSync(config: NexSyncConfig): Plugin
 ```
 
 Create a Vue plugin. Install with `app.use()`.
 
 ```ts
-app.use(createSynclite({ relay: 'wss://...', appId: 'my-app' }))
+app.use(createNexSync({ relay: 'wss://...', appId: 'my-app' }))
 ```
 
-## `useSyncliteSetup(config)`
+## `useNexSyncSetup(config)`
 
 ```typescript
-function useSyncliteSetup(config: SyncliteConfig): Synclite
+function useNexSyncSetup(config: NexSyncConfig): NexSync
 ```
 
-Set up Synclite inside a root component and provide it to descendants.
-Call this instead of `createSynclite()` when you want Synclite scoped to a component subtree.
+Set up NexSync inside a root component and provide it to descendants.
+Call this instead of `createNexSync()` when you want NexSync scoped to a component subtree.
 
-## `useSynclite()`
+## `useNexSync()`
 
 ```typescript
-function useSynclite(): Synclite
+function useNexSync(): NexSync
 ```
 
-Access the Synclite instance from any descendant component.
+Access the NexSync instance from any descendant component.
 
 ## `useValue(key)`
 

@@ -1,7 +1,7 @@
 type EventMap = Record<string, unknown[]>
 
 /**
- * Minimal type-safe event emitter. Used internally by Synclite and WebSocketManager.
+ * Minimal type-safe event emitter. Used internally by NexSync and WebSocketManager.
  */
 export class EventEmitter<T extends EventMap> {
   private listeners: { [K in keyof T]?: Array<(...args: T[K]) => void> } = {}

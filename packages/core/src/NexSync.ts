@@ -5,7 +5,7 @@ import { WebSocketManager } from './ws/index.js'
 import { reduceOperations, advanceClock } from './crdt/index.js'
 import { MemoryStore } from './store/MemoryStore.js'
 import type {
-  SyncliteConfig,
+  NexSyncConfig,
   SyncStatus,
   Operation,
   BatchItem,
@@ -16,7 +16,7 @@ import type {
   RelayMessage,
 } from './types.js'
 
-type SyncliteEvents = {
+type NexSyncEvents = {
   connected: []
   disconnected: []
   'sync:start': []
@@ -26,16 +26,16 @@ type SyncliteEvents = {
 }
 
 /**
- * The main Synclite client. Instantiate once per app.
+ * The main NexSync client. Instantiate once per app.
  *
  * @example
  * ```ts
- * const db = new Synclite({ relay: 'wss://relay.example.com' })
+ * const db = new NexSync({ relay: 'wss://relay.example.com' })
  * db.set('note:1', { title: 'Hello' }) // instant, syncs automatically
  * const note = await db.get('note:1')
  * ```
  */
-export class Synclite extends EventEmitter<SyncliteEvents> {
+export class NexSync extends EventEmitter<NexSyncEvents> {
   private readonly deviceId: string
   private readonly appId: string
   private readonly userId: string | undefined
@@ -65,7 +65,7 @@ export class Synclite extends EventEmitter<SyncliteEvents> {
   private keySubscriptions = new Map<string, Set<ChangeCallback>>()
   private prefixSubscriptions = new Map<string, Set<PrefixChangeCallback>>()
 
-  constructor(config: SyncliteConfig) {
+  constructor(config: NexSyncConfig) {
     super()
 
     this.config = {
@@ -254,7 +254,7 @@ export class Synclite extends EventEmitter<SyncliteEvents> {
     } else {
       // IndexedDB — lazily imported to avoid bundling in Node
       void import('./store/IndexedDBStore.js').then(({ IndexedDBStore }) => {
-        this.store = new IndexedDBStore(`synclite-${this.appId}`)
+        this.store = new IndexedDBStore(`nexsync-${this.appId}`)
       })
       // Use memory store until IndexedDB is ready (tiny window on startup)
       this.store = new MemoryStore()
@@ -307,7 +307,7 @@ export class Synclite extends EventEmitter<SyncliteEvents> {
       case 'auth:error': {
         this.emit(
           'sync:error',
-          new Error(`Synclite: Relay rejected auth — ${msg.message}`),
+          new Error(`NexSync: Relay rejected auth — ${msg.message}`),
         )
         break
       }
@@ -327,7 +327,7 @@ export class Synclite extends EventEmitter<SyncliteEvents> {
       case 'error': {
         this.emit(
           'sync:error',
-          new Error(`Synclite: Relay error [${msg.code}] — ${msg.message}`),
+          new Error(`NexSync: Relay error [${msg.code}] — ${msg.message}`),
         )
         break
       }
@@ -443,7 +443,7 @@ export class Synclite extends EventEmitter<SyncliteEvents> {
 
   private log(msg: string): void {
     if (this.config.debug) {
-      console.log(`[Synclite] ${msg}`)
+      console.log(`[NexSync] ${msg}`)
     }
   }
 }

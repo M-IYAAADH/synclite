@@ -8,7 +8,7 @@ export class SQLiteStore implements LocalStore {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private db: any
 
-  constructor(dbPath = './synclite.db') {
+  constructor(dbPath = './nexsync.db') {
     // Dynamic require so bundlers can tree-shake this in browser builds
     // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
     const Database = require('better-sqlite3') as new (path: string) => unknown

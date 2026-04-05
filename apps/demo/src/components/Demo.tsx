@@ -5,7 +5,7 @@ import { Panel } from './Panel'
 const RELAY_URL =
   process.env['NEXT_PUBLIC_RELAY_URL'] ?? 'ws://localhost:8080'
 
-const APP_ID = 'synclite-demo'
+const APP_ID = 'nexsync-demo'
 
 export function Demo() {
   return (
@@ -14,13 +14,13 @@ export function Demo() {
       <header className="border-b border-gray-800 px-6 py-4">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-xl font-bold tracking-tight text-white">Synclite</span>
+            <span className="text-xl font-bold tracking-tight text-white">NexSync</span>
             <span className="rounded-full bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-400">
               Demo
             </span>
           </div>
           <a
-            href="https://github.com/M-IYAAADH/Synclite"
+            href="https://github.com/M-IYAAADH/NexSync"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
@@ -109,8 +109,8 @@ export function Demo() {
           </div>
           <p className="mt-6 text-center text-xs text-gray-700">
             Built with{' '}
-            <a href="https://github.com/M-IYAAADH/Synclite" className="text-gray-500 hover:text-gray-400">
-              @synclite/react
+            <a href="https://github.com/M-IYAAADH/NexSync" className="text-gray-500 hover:text-gray-400">
+              @nexsync/react
             </a>{' '}
             · MIT License
           </p>

@@ -1,17 +1,17 @@
 ---
-title: '@synclite/core'
+title: '@nexsync/core'
 ---
 
-# @synclite/core
+# @nexsync/core
 
-The main Synclite client. Works in browser (IndexedDB), Node.js (SQLite/Memory), and React Native (AsyncStorage via `@synclite/react-native`).
+The main NexSync client. Works in browser (IndexedDB), Node.js (SQLite/Memory), and React Native (AsyncStorage via `@nexsync/react-native`).
 
-## `new Synclite(config)`
+## `new NexSync(config)`
 
 ```typescript
-import { Synclite } from '@synclite/core'
+import { NexSync } from '@nexsync/core'
 
-const db = new Synclite({
+const db = new NexSync({
   relay: 'wss://relay.example.com',  // Required (unless offline: true)
   appId: 'my-app',                   // Namespace. Default: 'default'
   userId: 'user-123',                // Optional. Stored on every op.

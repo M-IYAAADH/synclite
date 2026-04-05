@@ -1,5 +1,5 @@
 /**
- * End-to-end integration test: two Synclite clients, one relay.
+ * End-to-end integration test: two NexSync clients, one relay.
  *
  * Covers:
  *   1. Basic two-client realtime sync
@@ -10,7 +10,7 @@
  */
 
 // ── WebSocket polyfill ────────────────────────────────────────────────────────
-// Must be assigned before any Synclite instance is constructed.
+// Must be assigned before any NexSync instance is constructed.
 // WebSocketManager only calls `new WebSocket(url)` inside connect(), which
 // happens after construction, so this assignment happens in time.
 import { WebSocket as NodeWS } from 'ws'
@@ -18,8 +18,8 @@ import { WebSocket as NodeWS } from 'ws'
 
 // ── Imports ───────────────────────────────────────────────────────────────────
 import { RelayServer } from '../packages/relay/dist/index.js'
-import { Synclite } from '../packages/core/dist/index.js'
-import type { SyncliteConfig } from '../packages/core/dist/index.js'
+import { NexSync } from '../packages/core/dist/index.js'
+import type { NexSyncConfig } from '../packages/core/dist/index.js'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -65,9 +65,9 @@ function waitFor<T>(
 /** Sleep for ms milliseconds. */
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-/** Create a fresh Synclite instance pointing at the local relay. */
-function client(extra: Partial<SyncliteConfig> = {}) {
-  return new Synclite({
+/** Create a fresh NexSync instance pointing at the local relay. */
+function client(extra: Partial<NexSyncConfig> = {}) {
+  return new NexSync({
     relay: RELAY,
     appId: APP_ID,
     storage: 'memory',
@@ -78,7 +78,7 @@ function client(extra: Partial<SyncliteConfig> = {}) {
 }
 
 /** Wait until a client reaches 'connected' status. */
-async function waitConnected(db: Synclite, name: string): Promise<void> {
+async function waitConnected(db: NexSync, name: string): Promise<void> {
   await waitFor(() => db.status === 'connected', 5_000).catch(() => {
     throw new Error(`${name} never reached 'connected' (status=${db.status})`)
   })
@@ -133,7 +133,7 @@ async function test2_offlineQueue(server: RelayServer) {
   console.log('\nTest 2: Offline queue — writes while disconnected flush on reconnect')
 
   // Client C writes entirely offline (no relay)
-  const c = new Synclite({
+  const c = new NexSync({
     appId: APP_ID,
     storage: 'memory',
     offline: true,   // no relay connection
@@ -159,7 +159,7 @@ async function test2_offlineQueue(server: RelayServer) {
 
   // Now reconnect a new client that CAN reach the relay, seed it with the same ops
   // (Simulates: device came back online)
-  const cOnline = new Synclite({
+  const cOnline = new NexSync({
     relay: RELAY,
     appId: APP_ID,
     storage: 'memory',
@@ -285,7 +285,7 @@ async function test4_queryAndBatch() {
 // ── Runner ────────────────────────────────────────────────────────────────────
 
 async function main() {
-  console.log('Synclite E2E Test Suite')
+  console.log('NexSync E2E Test Suite')
   console.log('=======================')
   console.log(`Relay: ${RELAY}  appId: ${APP_ID}\n`)
 

@@ -6,12 +6,12 @@ import { Callout, Tabs, Tab } from 'nextra/components'
 
 # Self-Hosting the Relay
 
-The Synclite relay is a lightweight Node.js process backed by SQLite. You own your data.
+The NexSync relay is a lightweight Node.js process backed by SQLite. You own your data.
 
 ## Quick Start (local dev)
 
 ```bash
-npx @synclite/cli relay dev
+npx @nexsync/cli relay dev
 # Relay running → ws://localhost:8080
 ```
 
@@ -20,16 +20,16 @@ npx @synclite/cli relay dev
 ```dockerfile
 FROM node:20-alpine
 WORKDIR /app
-RUN npm install -g @synclite/relay
+RUN npm install -g @nexsync/relay
 EXPOSE 8080
-CMD ["synclite-relay"]
+CMD ["nexsync-relay"]
 ```
 
 ```bash
 docker run -p 8080:8080 \
   -e JWT_SECRET=your-secret \
   -v ./data:/app/data \
-  my-synclite-relay
+  my-nexsync-relay
 ```
 
 ## Environment Variables
@@ -47,11 +47,11 @@ docker run -p 8080:8080 \
 <Tabs items={['Fly.io', 'Railway', 'Render']}>
   <Tab>
     ```bash
-    synclite relay deploy --platform fly
+    nexsync relay deploy --platform fly
     ```
     Or manually:
     ```bash
-    fly launch --name my-synclite-relay
+    fly launch --name my-nexsync-relay
     fly secrets set JWT_SECRET=$(openssl rand -hex 32)
     fly volumes create relay_data --size 1
     fly deploy
@@ -59,12 +59,12 @@ docker run -p 8080:8080 \
   </Tab>
   <Tab>
     ```bash
-    synclite relay deploy --platform railway
+    nexsync relay deploy --platform railway
     ```
   </Tab>
   <Tab>
     ```bash
-    synclite relay deploy --platform render
+    nexsync relay deploy --platform render
     ```
   </Tab>
 </Tabs>
@@ -76,7 +76,7 @@ docker run -p 8080:8080 \
 Set `JWT_SECRET` on the relay. Pass `token: jwt` in the client config:
 
 ```ts
-const db = new Synclite({
+const db = new NexSync({
   relay: 'wss://my-relay.fly.dev',
   token: userJwt,
 })

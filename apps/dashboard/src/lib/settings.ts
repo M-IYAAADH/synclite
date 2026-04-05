@@ -10,7 +10,7 @@ export const DEFAULT_SETTINGS: DashboardSettings = {
   token: '',
 }
 
-const KEY = 'synclite:dashboard:settings'
+const KEY = 'nexsync:dashboard:settings'
 
 export function loadSettings(): DashboardSettings {
   if (typeof window === 'undefined') return DEFAULT_SETTINGS

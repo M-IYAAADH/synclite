@@ -1,6 +1,6 @@
-# Synclite Demo
+# NexSync Demo
 
-Collaborative notes app demonstrating Synclite's offline-first sync.
+Collaborative notes app demonstrating NexSync's offline-first sync.
 
 ## Run locally
 
@@ -10,7 +10,7 @@ pnpm build
 node packages/relay/dist/cli.js
 
 # 2. In another terminal, start the demo
-pnpm --filter @synclite/demo dev
+pnpm --filter @nexsync/demo dev
 ```
 
 Open http://localhost:3000 and type in either window.
@@ -23,7 +23,7 @@ Open http://localhost:3000 and type in either window.
 
 ## Deploy
 
-Set `NEXT_PUBLIC_RELAY_URL` to your hosted relay URL (e.g. `wss://relay.synclite.dev`),
+Set `NEXT_PUBLIC_RELAY_URL` to your hosted relay URL (e.g. `wss://relay.nexsync.dev`),
 then deploy to Vercel:
 
 ```bash

@@ -12,7 +12,7 @@ import type { RelayConfig, ConnectedClient, ClientMessage, RelayMessage, Operati
 const MAX_OPS_PER_SYNC = 10_000
 
 /**
- * The Synclite relay server. Accepts WebSocket connections, authenticates clients,
+ * The NexSync relay server. Accepts WebSocket connections, authenticates clients,
  * persists the operation log, and broadcasts ops to peers.
  */
 export class RelayServer {

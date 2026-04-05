@@ -1,34 +1,34 @@
 ---
-title: '@synclite/react'
+title: '@nexsync/react'
 ---
 
-# @synclite/react
+# @nexsync/react
 
-React 18+ hooks and provider for Synclite.
+React 18+ hooks and provider for NexSync.
 
-## `<SyncliteProvider>`
+## `<NexSyncProvider>`
 
 ```typescript
-type SyncliteProviderProps = SyncliteConfig & { children: React.ReactNode }
+type NexSyncProviderProps = NexSyncConfig & { children: React.ReactNode }
 ```
 
-Wrap your app (or a subtree) to make Synclite available via hooks.
+Wrap your app (or a subtree) to make NexSync available via hooks.
 
 ```tsx
-<SyncliteProvider relay="wss://relay.example.com" appId="my-app">
+<NexSyncProvider relay="wss://relay.example.com" appId="my-app">
   <App />
-</SyncliteProvider>
+</NexSyncProvider>
 ```
 
-Multiple providers are supported — each creates an isolated Synclite instance.
+Multiple providers are supported — each creates an isolated NexSync instance.
 
-## `useSynclite()`
+## `useNexSync()`
 
 ```typescript
-function useSynclite(): Synclite
+function useNexSync(): NexSync
 ```
 
-Access the raw `Synclite` instance for writes and subscriptions.
+Access the raw `NexSync` instance for writes and subscriptions.
 
 ## `useValue(key)`
 

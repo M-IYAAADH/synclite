@@ -4,12 +4,12 @@ title: Vue Guide
 
 # Vue Guide
 
-`@synclite/vue` provides Vue 3 composables that mirror the React hooks API.
+`@nexsync/vue` provides Vue 3 composables that mirror the React hooks API.
 
 ## Installation
 
 ```bash
-npm install @synclite/core @synclite/vue
+npm install @nexsync/core @nexsync/vue
 ```
 
 ## Setup
@@ -18,11 +18,11 @@ Install the plugin in your `main.ts`:
 
 ```ts
 import { createApp } from 'vue'
-import { createSynclite } from '@synclite/vue'
+import { createNexSync } from '@nexsync/vue'
 import App from './App.vue'
 
 createApp(App)
-  .use(createSynclite({
+  .use(createNexSync({
     relay: 'wss://relay.example.com',
     appId: 'my-app',
   }))
@@ -33,9 +33,9 @@ Or set up inside a root component (useful for subtrees):
 
 ```vue
 <script setup lang="ts">
-import { useSyncliteSetup } from '@synclite/vue'
+import { useNexSyncSetup } from '@nexsync/vue'
 
-useSyncliteSetup({ relay: 'wss://relay.example.com', appId: 'my-app' })
+useNexSyncSetup({ relay: 'wss://relay.example.com', appId: 'my-app' })
 </script>
 ```
 
@@ -45,9 +45,9 @@ useSyncliteSetup({ relay: 'wss://relay.example.com', appId: 'my-app' })
 
 ```vue
 <script setup lang="ts">
-import { useSynclite, useValue } from '@synclite/vue'
+import { useNexSync, useValue } from '@nexsync/vue'
 
-const db = useSynclite()
+const db = useNexSync()
 const note = useValue('note:1') // Ref<Record<string, unknown> | null>
 </script>
 
@@ -63,7 +63,7 @@ const note = useValue('note:1') // Ref<Record<string, unknown> | null>
 
 ```vue
 <script setup lang="ts">
-import { useQuery } from '@synclite/vue'
+import { useQuery } from '@nexsync/vue'
 
 const notes = useQuery('note:') // Ref<Record<string, Record<string, unknown>>>
 </script>
@@ -81,7 +81,7 @@ const notes = useQuery('note:') // Ref<Record<string, Record<string, unknown>>>
 
 ```vue
 <script setup lang="ts">
-import { useStatus } from '@synclite/vue'
+import { useStatus } from '@nexsync/vue'
 
 const status = useStatus() // Ref<'connecting' | 'connected' | 'offline' | 'syncing'>
 </script>

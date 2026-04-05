@@ -1,6 +1,6 @@
-export { Synclite } from './Synclite.js'
+export { NexSync } from './NexSync.js'
 export type {
-  SyncliteConfig,
+  NexSyncConfig,
   SyncStatus,
   Operation,
   BatchItem,

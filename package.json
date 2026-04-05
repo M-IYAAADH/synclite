@@ -1,5 +1,5 @@
 {
-  "name": "synclite",
+  "name": "nexsync",
   "private": true,
   "version": "0.1.0",
   "description": "Universal offline-first sync primitive",

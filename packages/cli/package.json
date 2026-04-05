@@ -1,12 +1,12 @@
 {
-  "name": "@synclite/cli",
+  "name": "@nexsync/cli",
   "version": "0.1.0",
-  "description": "Developer CLI for Synclite — init projects, run relay, stream logs",
+  "description": "Developer CLI for NexSync — init projects, run relay, stream logs",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "synclite": "./dist/cli.js"
+    "nexsync": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc --project tsconfig.json && printf '#!/usr/bin/env node\\n' | cat - dist/cli.js > dist/cli.tmp.js && mv dist/cli.tmp.js dist/cli.js && chmod +x dist/cli.js",
@@ -15,7 +15,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@synclite/relay": "workspace:*",
+    "@nexsync/relay": "workspace:*",
     "chalk": "^5.3.0",
     "commander": "^12.0.0",
     "ora": "^8.0.1",

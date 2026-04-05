@@ -1,34 +1,34 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { Synclite } from '@synclite/core'
-import type { SyncliteConfig } from '@synclite/core'
+import { NexSync } from '@nexsync/core'
+import type { NexSyncConfig } from '@nexsync/core'
 
 // ── Context ────────────────────────────────────────────────────────────────────
 
-const SyncliteContext = createContext<Synclite | null>(null)
+const NexSyncContext = createContext<NexSync | null>(null)
 
 // ── Provider ──────────────────────────────────────────────────────────────────
 
-export type SyncliteProviderProps = SyncliteConfig & {
+export type NexSyncProviderProps = NexSyncConfig & {
   children: React.ReactNode
 }
 
 /**
  * Wrap your app (or a section of it) with this provider.
- * All `useSynclite`, `useValue`, `useQuery`, and `useStatus` hooks
- * must be rendered inside a `SyncliteProvider`.
+ * All `useNexSync`, `useValue`, `useQuery`, and `useStatus` hooks
+ * must be rendered inside a `NexSyncProvider`.
  *
  * @example
  * ```tsx
- * <SyncliteProvider relay="wss://relay.example.com" userId="user-1">
+ * <NexSyncProvider relay="wss://relay.example.com" userId="user-1">
  *   <App />
- * </SyncliteProvider>
+ * </NexSyncProvider>
  * ```
  */
-export function SyncliteProvider({ children, ...config }: SyncliteProviderProps) {
+export function NexSyncProvider({ children, ...config }: NexSyncProviderProps) {
   // useState initializer runs exactly once per mount, even in Strict Mode.
-  const [db] = useState(() => new Synclite(config))
+  const [db] = useState(() => new NexSync(config))
 
   useEffect(() => {
     // Disconnect when the provider unmounts
@@ -37,26 +37,26 @@ export function SyncliteProvider({ children, ...config }: SyncliteProviderProps)
     }
   }, [db])
 
-  return <SyncliteContext.Provider value={db}>{children}</SyncliteContext.Provider>
+  return <NexSyncContext.Provider value={db}>{children}</NexSyncContext.Provider>
 }
 
-// ── useSynclite ───────────────────────────────────────────────────────────────
+// ── useNexSync ───────────────────────────────────────────────────────────────
 
 /**
- * Access the raw `Synclite` instance to call `set`, `delete`, `batch`, `sync`, etc.
+ * Access the raw `NexSync` instance to call `set`, `delete`, `batch`, `sync`, etc.
  *
  * @example
  * ```tsx
- * const db = useSynclite()
+ * const db = useNexSync()
  * db.set('note:1', { title: 'Hello' })
  * ```
  */
-export function useSynclite(): Synclite {
-  const db = useContext(SyncliteContext)
+export function useNexSync(): NexSync {
+  const db = useContext(NexSyncContext)
   if (!db) {
     throw new Error(
-      'useSynclite: no SyncliteProvider found in the component tree. ' +
-        'Wrap your component with <SyncliteProvider>.',
+      'useNexSync: no NexSyncProvider found in the component tree. ' +
+        'Wrap your component with <NexSyncProvider>.',
     )
   }
   return db

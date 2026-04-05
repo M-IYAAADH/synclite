@@ -9,7 +9,7 @@ export default defineConfig({
     headless: true,
   },
   webServer: {
-    command: 'pnpm --filter @synclite/demo dev',
+    command: 'pnpm --filter @nexsync/demo dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env['CI'],
     timeout: 30_000,

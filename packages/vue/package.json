@@ -1,7 +1,7 @@
 {
-  "name": "@synclite/vue",
+  "name": "@nexsync/vue",
   "version": "0.1.0",
-  "description": "Vue 3 composables and plugin for Synclite — offline-first sync",
+  "description": "Vue 3 composables and plugin for NexSync — offline-first sync",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -18,11 +18,11 @@
     "clean": "rm -rf dist"
   },
   "peerDependencies": {
-    "@synclite/core": ">=0.1.0",
+    "@nexsync/core": ">=0.1.0",
     "vue": ">=3.0.0"
   },
   "devDependencies": {
-    "@synclite/core": "workspace:*",
+    "@nexsync/core": "workspace:*",
     "@types/node": "^20.0.0",
     "typescript": "^5.4.0",
     "vue": "^3.4.0"

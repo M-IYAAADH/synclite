@@ -3,7 +3,7 @@ import chalk from 'chalk'
 import ora from 'ora'
 
 /**
- * Register the `synclite logs` command.
+ * Register the `nexsync logs` command.
  * Connects to a relay via WebSocket and streams live operation events.
  */
 export function registerLogsCommand(program: Command): void {

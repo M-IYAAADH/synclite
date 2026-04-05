@@ -4,7 +4,7 @@ title: How It Works
 
 # How It Works
 
-Synclite is built on three ideas: **instant local writes**, **append-only operation logs**, and **last-write-wins conflict resolution**.
+NexSync is built on three ideas: **instant local writes**, **append-only operation logs**, and **last-write-wins conflict resolution**.
 
 ## The Data Flow
 
@@ -43,7 +43,7 @@ The relay stores every operation forever. When a client reconnects after being o
 
 ## Conflict Resolution
 
-When two clients edit the same key at the same time (both offline), both operations get synced. Synclite resolves them deterministically:
+When two clients edit the same key at the same time (both offline), both operations get synced. NexSync resolves them deterministically:
 
 1. **Delete wins** — a delete always beats a concurrent set
 2. **Last-Write-Wins** — higher Lamport timestamp wins

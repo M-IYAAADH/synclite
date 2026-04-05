@@ -1,33 +1,33 @@
 ---
-title: Synclite
+title: NexSync
 ---
 
 import { Callout, Cards, Card } from 'nextra/components'
 
-# Synclite
+# NexSync
 
 **Offline-first sync for any app.** Install one package, get instant local writes, automatic conflict resolution, and real-time sync — without thinking about network state.
 
 ```bash
-npm install @synclite/core
+npm install @nexsync/core
 ```
 
 ```typescript
-import { Synclite } from '@synclite/core'
+import { NexSync } from '@nexsync/core'
 
-const db = new Synclite({ relay: 'wss://relay.example.com' })
+const db = new NexSync({ relay: 'wss://relay.example.com' })
 db.set('note:1', { title: 'Hello' })  // instant locally, syncs automatically
 ```
 
 That's it. Works offline. Syncs on reconnect. No conflicts to resolve manually.
 
 <Callout type="info">
-  **Try the live demo** → open two browser windows at [demo.synclite.dev](https://demo.synclite.dev) and watch changes sync in real time.
+  **Try the live demo** → open two browser windows at [demo.nexsync.dev](https://demo.nexsync.dev) and watch changes sync in real time.
 </Callout>
 
-## Why Synclite?
+## Why NexSync?
 
-| | Synclite | Firebase | Supabase | DIY WebSockets |
+| | NexSync | Firebase | Supabase | DIY WebSockets |
 |---|---|---|---|---|
 | Works offline | ✅ | ⚠️ Limited | ❌ | ❌ |
 | Conflict resolution | ✅ Automatic | ⚠️ Manual | ❌ | ❌ |

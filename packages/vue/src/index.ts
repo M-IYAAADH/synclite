@@ -1,2 +1,2 @@
-export { createSynclite, SYNCLITE_KEY } from './plugin.js'
-export { useSyncliteSetup, useSynclite, useValue, useQuery, useStatus } from './composables.js'
+export { createNexSync, SYNCLITE_KEY } from './plugin.js'
+export { useNexSyncSetup, useNexSync, useValue, useQuery, useStatus } from './composables.js'

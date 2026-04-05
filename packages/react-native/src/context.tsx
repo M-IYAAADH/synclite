@@ -1,32 +1,32 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { Synclite, type SyncliteConfig } from '@synclite/core'
+import { NexSync, type NexSyncConfig } from '@nexsync/core'
 import { AsyncStorageStore } from './store/AsyncStorageStore.js'
 
-const SyncliteContext = createContext<Synclite | null>(null)
+const NexSyncContext = createContext<NexSync | null>(null)
 
-export type SyncliteProviderProps = Omit<SyncliteConfig, 'storeInstance'> & {
+export type NexSyncProviderProps = Omit<NexSyncConfig, 'storeInstance'> & {
   children: React.ReactNode
 }
 
 /**
- * React Native provider that wraps your app and makes Synclite available via hooks.
+ * React Native provider that wraps your app and makes NexSync available via hooks.
  * Uses AsyncStorage for persistent offline storage automatically.
  *
  * @example
  * ```tsx
  * export default function App() {
  *   return (
- *     <SyncliteProvider relay="wss://relay.example.com" appId="my-app">
+ *     <NexSyncProvider relay="wss://relay.example.com" appId="my-app">
  *       <MyApp />
- *     </SyncliteProvider>
+ *     </NexSyncProvider>
  *   )
  * }
  * ```
  */
-export function SyncliteProvider({ children, ...config }: SyncliteProviderProps) {
-  const [db] = useState(() => new Synclite({ ...config, storeInstance: new AsyncStorageStore() }))
+export function NexSyncProvider({ children, ...config }: NexSyncProviderProps) {
+  const [db] = useState(() => new NexSync({ ...config, storeInstance: new AsyncStorageStore() }))
 
   useEffect(() => {
     return () => {
@@ -34,19 +34,19 @@ export function SyncliteProvider({ children, ...config }: SyncliteProviderProps)
     }
   }, [db])
 
-  return <SyncliteContext.Provider value={db}>{children}</SyncliteContext.Provider>
+  return <NexSyncContext.Provider value={db}>{children}</NexSyncContext.Provider>
 }
 
 /**
- * Access the Synclite instance from any component inside `SyncliteProvider`.
+ * Access the NexSync instance from any component inside `NexSyncProvider`.
  * Throws if called outside the provider.
  */
-export function useSynclite(): Synclite {
-  const db = useContext(SyncliteContext)
+export function useNexSync(): NexSync {
+  const db = useContext(NexSyncContext)
   if (!db) {
     throw new Error(
-      'Synclite: useSynclite() was called outside of <SyncliteProvider>. ' +
-        'Wrap your app (or the relevant subtree) with <SyncliteProvider>.',
+      'NexSync: useNexSync() was called outside of <NexSyncProvider>. ' +
+        'Wrap your app (or the relevant subtree) with <NexSyncProvider>.',
     )
   }
   return db

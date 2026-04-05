@@ -1,11 +1,11 @@
 {
-  "name": "@synclite/relay",
+  "name": "@nexsync/relay",
   "version": "0.1.0",
-  "description": "Self-hostable WebSocket relay server for Synclite",
+  "description": "Self-hostable WebSocket relay server for NexSync",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "synclite-relay": "./dist/cli.js"
+    "nexsync-relay": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc --project tsconfig.json",

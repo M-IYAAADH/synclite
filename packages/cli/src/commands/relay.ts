@@ -3,12 +3,12 @@ import chalk from 'chalk'
 import ora from 'ora'
 
 /**
- * Register the `synclite relay` subcommand group.
+ * Register the `nexsync relay` subcommand group.
  */
 export function registerRelayCommand(program: Command): void {
   const relay = program
     .command('relay')
-    .description('Manage the Synclite relay server')
+    .description('Manage the NexSync relay server')
 
   relay
     .command('dev')
@@ -22,7 +22,7 @@ export function registerRelayCommand(program: Command): void {
 
       try {
         // Dynamic import so better-sqlite3 only loads when needed
-        const { RelayServer } = await import('@synclite/relay')
+        const { RelayServer } = await import('@nexsync/relay')
         new RelayServer({
           port,
           databasePath: opts.db,
@@ -54,7 +54,7 @@ export function registerRelayCommand(program: Command): void {
       switch (opts.platform) {
         case 'fly':
           printDeployInstructions('Fly.io', [
-            'fly launch --name my-synclite-relay',
+            'fly launch --name my-nexsync-relay',
             'fly secrets set JWT_SECRET=$(openssl rand -hex 32)',
             'fly volumes create relay_data --size 1',
             'fly deploy',
@@ -71,7 +71,7 @@ export function registerRelayCommand(program: Command): void {
         case 'render':
           printDeployInstructions('Render', [
             '# 1. Create a new Web Service in the Render dashboard',
-            '# 2. Set the start command to: npx @synclite/relay',
+            '# 2. Set the start command to: npx @nexsync/relay',
             '# 3. Add env var: JWT_SECRET=<your-secret>',
             '# 4. Add a Persistent Disk at /app/data (1 GB)',
           ])

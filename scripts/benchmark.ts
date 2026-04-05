@@ -1,5 +1,5 @@
 /**
- * Synclite performance benchmarks.
+ * NexSync performance benchmarks.
  *
  * Measures:
  * 1. Local write latency (1000 db.set() calls, MemoryStore)
@@ -8,7 +8,7 @@
  * 4. batch() performance (100 items per batch, 100 batches)
  */
 
-import { Synclite, MemoryStore } from '../packages/core/dist/index.js'
+import { NexSync, MemoryStore } from '../packages/core/dist/index.js'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -56,7 +56,7 @@ function printTable(
 
 async function benchWriteLatency(): Promise<void> {
   const store = new MemoryStore()
-  const db = new Synclite({ appId: 'bench', storage: 'memory', storeInstance: store })
+  const db = new NexSync({ appId: 'bench', storage: 'memory', storeInstance: store })
 
   const samples: number[] = []
   const N = 1000
@@ -76,7 +76,7 @@ async function benchWriteLatency(): Promise<void> {
 // ─── Benchmark 2: Subscribe notification latency ────────────────────────────
 
 async function benchSubscribeLatency(): Promise<void> {
-  const db = new Synclite({ appId: 'bench-sub', storage: 'memory' })
+  const db = new NexSync({ appId: 'bench-sub', storage: 'memory' })
 
   const samples: number[] = []
   const N = 100
@@ -106,7 +106,7 @@ async function benchSubscribeLatency(): Promise<void> {
 // ─── Benchmark 3: query() performance ───────────────────────────────────────
 
 async function benchQueryPerformance(): Promise<void> {
-  const db = new Synclite({ appId: 'bench-query', storage: 'memory' })
+  const db = new NexSync({ appId: 'bench-query', storage: 'memory' })
 
   // Populate 1000 keys
   for (let i = 0; i < 1000; i++) {
@@ -133,7 +133,7 @@ async function benchQueryPerformance(): Promise<void> {
 // ─── Benchmark 4: batch() performance ───────────────────────────────────────
 
 async function benchBatchPerformance(): Promise<void> {
-  const db = new Synclite({ appId: 'bench-batch', storage: 'memory' })
+  const db = new NexSync({ appId: 'bench-batch', storage: 'memory' })
 
   const samples: number[] = []
   const BATCHES = 100
@@ -159,7 +159,7 @@ async function benchBatchPerformance(): Promise<void> {
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function main(): Promise<void> {
-  console.log('\n  Synclite Performance Benchmarks')
+  console.log('\n  NexSync Performance Benchmarks')
   console.log('  ================================')
 
   await benchWriteLatency()

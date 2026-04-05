@@ -6,24 +6,24 @@ import { Callout } from 'nextra/components'
 
 # React Guide
 
-`@synclite/react` wraps `@synclite/core` with React hooks that feel native to React developers.
+`@nexsync/react` wraps `@nexsync/core` with React hooks that feel native to React developers.
 
 ## Installation
 
 ```bash
-npm install @synclite/core @synclite/react
+npm install @nexsync/core @nexsync/react
 ```
 
 ## Setup
 
-Wrap your root component (or a subtree) with `SyncliteProvider`:
+Wrap your root component (or a subtree) with `NexSyncProvider`:
 
 ```tsx
-import { SyncliteProvider } from '@synclite/react'
+import { NexSyncProvider } from '@nexsync/react'
 
 export default function App() {
   return (
-    <SyncliteProvider
+    <NexSyncProvider
       relay="wss://relay.example.com"
       appId="my-app"
       userId="user-123"    // optional
@@ -31,13 +31,13 @@ export default function App() {
       debug={false}
     >
       <MyApp />
-    </SyncliteProvider>
+    </NexSyncProvider>
   )
 }
 ```
 
 <Callout>
-  Each `SyncliteProvider` creates its own Synclite instance. For multi-tenant apps or isolated panels, render multiple providers with different `appId`s.
+  Each `NexSyncProvider` creates its own NexSync instance. For multi-tenant apps or isolated panels, render multiple providers with different `appId`s.
 </Callout>
 
 ## Hooks
@@ -88,13 +88,13 @@ function ConnectionBadge() {
 }
 ```
 
-### `useSynclite()`
+### `useNexSync()`
 
-Access the raw `Synclite` instance for writes and advanced use.
+Access the raw `NexSync` instance for writes and advanced use.
 
 ```tsx
 function NoteEditor({ id }: { id: string }) {
-  const db = useSynclite()
+  const db = useNexSync()
   const note = useValue(`note:${id}`)
 
   return (
@@ -109,14 +109,14 @@ function NoteEditor({ id }: { id: string }) {
 ## Complete Example
 
 ```tsx
-import { SyncliteProvider, useSynclite, useValue, useQuery, useStatus } from '@synclite/react'
+import { NexSyncProvider, useNexSync, useValue, useQuery, useStatus } from '@nexsync/react'
 
 function App() {
   return (
-    <SyncliteProvider relay="wss://relay.example.com" appId="notes">
+    <NexSyncProvider relay="wss://relay.example.com" appId="notes">
       <StatusBar />
       <NoteList />
-    </SyncliteProvider>
+    </NexSyncProvider>
   )
 }
 
@@ -126,7 +126,7 @@ function StatusBar() {
 }
 
 function NoteList() {
-  const db = useSynclite()
+  const db = useNexSync()
   const notes = useQuery('note:')
 
   function addNote() {
@@ -145,7 +145,7 @@ function NoteList() {
 }
 
 function NoteEditor({ id }: { id: string }) {
-  const db = useSynclite()
+  const db = useNexSync()
   const note = useValue(id)
 
   return (

@@ -1,5 +1,5 @@
 {
-  "name": "@synclite/demo",
+  "name": "@nexsync/demo",
   "version": "0.1.0",
   "private": true,
   "description": "Collaborative notes demo — two windows, one relay, offline-first sync",
@@ -11,8 +11,8 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
-    "@synclite/core": "workspace:*",
-    "@synclite/react": "workspace:*",
+    "@nexsync/core": "workspace:*",
+    "@nexsync/react": "workspace:*",
     "next": "^14.2.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"

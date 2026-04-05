@@ -1,6 +1,6 @@
 'use client'
 
-import type { SyncStatus } from '@synclite/core'
+import type { SyncStatus } from '@nexsync/core'
 
 const STATUS_CONFIG: Record<SyncStatus, { color: string; label: string; pulse: boolean }> = {
   connecting: { color: 'bg-yellow-400', label: 'Connecting…', pulse: true },

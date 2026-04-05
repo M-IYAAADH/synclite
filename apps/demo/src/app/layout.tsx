@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Synclite Demo — Offline-First Sync',
+  title: 'NexSync Demo — Offline-First Sync',
   description:
     'See two windows sync in real time. Go offline, make changes, come back online — nothing is lost.',
 }

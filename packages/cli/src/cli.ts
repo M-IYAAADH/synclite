@@ -14,8 +14,8 @@ const version = String(pkg.version ?? '0.0.0')
 const program = new Command()
 
 program
-  .name('synclite')
-  .description('Synclite CLI — offline-first sync for any app')
+  .name('nexsync')
+  .description('NexSync CLI — offline-first sync for any app')
   .version(version, '-v, --version', 'Print version number')
 
 registerInitCommand(program)

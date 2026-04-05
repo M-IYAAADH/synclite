@@ -9,7 +9,7 @@ export class IndexedDBStore implements LocalStore {
   private valuesStore: ReturnType<typeof createStore>
   private opsStore: ReturnType<typeof createStore>
 
-  constructor(dbName = 'synclite') {
+  constructor(dbName = 'nexsync') {
     this.valuesStore = createStore(`${dbName}-values`, 'values')
     this.opsStore = createStore(`${dbName}-ops`, 'ops')
   }

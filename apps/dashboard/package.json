@@ -1,7 +1,7 @@
 {
-  "name": "@synclite/dashboard",
+  "name": "@nexsync/dashboard",
   "version": "0.1.0",
-  "description": "Developer dashboard for inspecting Synclite relay data",
+  "description": "Developer dashboard for inspecting NexSync relay data",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3002",

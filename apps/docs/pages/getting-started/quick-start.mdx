@@ -15,22 +15,22 @@ Get offline-first sync running in your app in under 5 minutes.
 <Tabs items={['React', 'Vue', 'React Native', 'Vanilla JS']}>
   <Tab>
     ```bash
-    npm install @synclite/core @synclite/react
+    npm install @nexsync/core @nexsync/react
     ```
   </Tab>
   <Tab>
     ```bash
-    npm install @synclite/core @synclite/vue
+    npm install @nexsync/core @nexsync/vue
     ```
   </Tab>
   <Tab>
     ```bash
-    npm install @synclite/core @synclite/react-native @react-native-async-storage/async-storage
+    npm install @nexsync/core @nexsync/react-native @react-native-async-storage/async-storage
     ```
   </Tab>
   <Tab>
     ```bash
-    npm install @synclite/core
+    npm install @nexsync/core
     ```
   </Tab>
 </Tabs>
@@ -38,7 +38,7 @@ Get offline-first sync running in your app in under 5 minutes.
 ### Start a local relay
 
 ```bash
-npx @synclite/cli relay dev
+npx @nexsync/cli relay dev
 # Relay running → ws://localhost:8080
 ```
 
@@ -48,13 +48,13 @@ npx @synclite/cli relay dev
   <Tab>
     ```tsx
     // app.tsx
-    import { SyncliteProvider } from '@synclite/react'
+    import { NexSyncProvider } from '@nexsync/react'
 
     export default function App() {
       return (
-        <SyncliteProvider relay="ws://localhost:8080" appId="my-app">
+        <NexSyncProvider relay="ws://localhost:8080" appId="my-app">
           <MyApp />
-        </SyncliteProvider>
+        </NexSyncProvider>
       )
     }
     ```
@@ -63,33 +63,33 @@ npx @synclite/cli relay dev
     ```ts
     // main.ts
     import { createApp } from 'vue'
-    import { createSynclite } from '@synclite/vue'
+    import { createNexSync } from '@nexsync/vue'
     import App from './App.vue'
 
     createApp(App)
-      .use(createSynclite({ relay: 'ws://localhost:8080', appId: 'my-app' }))
+      .use(createNexSync({ relay: 'ws://localhost:8080', appId: 'my-app' }))
       .mount('#app')
     ```
   </Tab>
   <Tab>
     ```tsx
     // App.tsx
-    import { SyncliteProvider } from '@synclite/react-native'
+    import { NexSyncProvider } from '@nexsync/react-native'
 
     export default function App() {
       return (
-        <SyncliteProvider relay="ws://localhost:8080" appId="my-app">
+        <NexSyncProvider relay="ws://localhost:8080" appId="my-app">
           <MyApp />
-        </SyncliteProvider>
+        </NexSyncProvider>
       )
     }
     ```
   </Tab>
   <Tab>
     ```ts
-    import { Synclite } from '@synclite/core'
+    import { NexSync } from '@nexsync/core'
 
-    const db = new Synclite({
+    const db = new NexSync({
       relay: 'ws://localhost:8080',
       appId: 'my-app',
     })
@@ -102,10 +102,10 @@ npx @synclite/cli relay dev
 <Tabs items={['React', 'Vue', 'Vanilla JS']}>
   <Tab>
     ```tsx
-    import { useSynclite, useValue } from '@synclite/react'
+    import { useNexSync, useValue } from '@nexsync/react'
 
     function NoteEditor() {
-      const db = useSynclite()
+      const db = useNexSync()
       const note = useValue('note:1')
 
       return (
@@ -120,9 +120,9 @@ npx @synclite/cli relay dev
   <Tab>
     ```vue
     <script setup lang="ts">
-    import { useSynclite, useValue } from '@synclite/vue'
+    import { useNexSync, useValue } from '@nexsync/vue'
 
-    const db = useSynclite()
+    const db = useNexSync()
     const note = useValue('note:1')
     </script>
 

@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import type { SyncStatus } from '@synclite/core'
-import { useSynclite } from './context.js'
+import type { SyncStatus } from '@nexsync/core'
+import { useNexSync } from './context.js'
 
 // ── useValue ──────────────────────────────────────────────────────────────────
 
@@ -17,7 +17,7 @@ import { useSynclite } from './context.js'
  * ```
  */
 export function useValue(key: string): Record<string, unknown> | null {
-  const db = useSynclite()
+  const db = useNexSync()
   const [value, setValue] = useState<Record<string, unknown> | null>(null)
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export function useValue(key: string): Record<string, unknown> | null {
  * ```
  */
 export function useQuery(prefix: string): Record<string, Record<string, unknown>> {
-  const db = useSynclite()
+  const db = useNexSync()
   const [values, setValues] = useState<Record<string, Record<string, unknown>>>({})
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export function useQuery(prefix: string): Record<string, Record<string, unknown>
  * ```
  */
 export function useStatus(): SyncStatus {
-  const db = useSynclite()
+  const db = useNexSync()
   const [status, setStatus] = useState<SyncStatus>(() => db.status)
 
   useEffect(() => {

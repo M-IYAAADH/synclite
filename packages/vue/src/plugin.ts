@@ -1,26 +1,26 @@
 import { type App, type InjectionKey } from 'vue'
-import { Synclite, type SyncliteConfig } from '@synclite/core'
+import { NexSync, type NexSyncConfig } from '@nexsync/core'
 
-/** Injection key used to share the Synclite instance via Vue's provide/inject. */
-export const SYNCLITE_KEY: InjectionKey<Synclite> = Symbol('synclite')
+/** Injection key used to share the NexSync instance via Vue's provide/inject. */
+export const SYNCLITE_KEY: InjectionKey<NexSync> = Symbol('nexsync')
 
 /**
- * Create a Vue plugin that installs Synclite globally.
+ * Create a Vue plugin that installs NexSync globally.
  *
  * @example
  * ```ts
  * import { createApp } from 'vue'
- * import { createSynclite } from '@synclite/vue'
+ * import { createNexSync } from '@nexsync/vue'
  *
  * const app = createApp(App)
- * app.use(createSynclite({ relay: 'wss://relay.example.com', appId: 'my-app' }))
+ * app.use(createNexSync({ relay: 'wss://relay.example.com', appId: 'my-app' }))
  * app.mount('#app')
  * ```
  */
-export function createSynclite(config: SyncliteConfig): { install(app: App): void } {
+export function createNexSync(config: NexSyncConfig): { install(app: App): void } {
   return {
     install(app: App) {
-      const db = new Synclite(config)
+      const db = new NexSync(config)
       app.provide(SYNCLITE_KEY, db)
     },
   }

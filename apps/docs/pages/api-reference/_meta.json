@@ -1,5 +1,5 @@
 {
-  "core": "@synclite/core",
-  "react": "@synclite/react",
-  "vue": "@synclite/vue"
+  "core": "@nexsync/core",
+  "react": "@nexsync/react",
+  "vue": "@nexsync/vue"
 }
