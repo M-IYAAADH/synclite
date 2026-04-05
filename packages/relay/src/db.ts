@@ -86,6 +86,78 @@ export class RelayDB {
     return row.cnt
   }
 
+  /** Return the latest value for each key (where the latest op is 'set', not 'delete'). */
+  getCurrentValues(
+    appId: string,
+    prefix?: string,
+    limit = 200,
+  ): Array<{
+    key: string
+    value: Record<string, unknown>
+    timestamp: number
+    deviceId: string
+    userId: string | undefined
+  }> {
+    const prefixParam = prefix !== undefined ? `${prefix}%` : null
+    const rows = this.db
+      .prepare(
+        `SELECT o.key_, o.value, o.timestamp, o.device_id, o.user_id
+         FROM operations o
+         INNER JOIN (
+           SELECT key_, MAX(timestamp) as max_ts
+           FROM operations WHERE app_id = ?
+           GROUP BY key_
+         ) latest ON o.key_ = latest.key_ AND o.timestamp = latest.max_ts
+         WHERE o.app_id = ? AND o.type = 'set'
+           AND (? IS NULL OR o.key_ LIKE ?)
+         ORDER BY o.key_ ASC
+         LIMIT ?`,
+      )
+      .all(appId, appId, prefixParam, prefixParam, limit) as Array<{
+      key_: string
+      value: string | null
+      timestamp: number
+      device_id: string
+      user_id: string | null
+    }>
+    return rows.map((row) => ({
+      key: row.key_,
+      value: row.value !== null ? (JSON.parse(row.value) as Record<string, unknown>) : {},
+      timestamp: row.timestamp,
+      deviceId: row.device_id,
+      userId: row.user_id !== null ? row.user_id : undefined,
+    }))
+  }
+
+  /** Return recent operations for an app in descending timestamp order. */
+  getRecentOps(appId: string, limit: number, since?: number): Operation[] {
+    const sinceParam = since !== undefined ? since : null
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM operations WHERE app_id = ? AND (? IS NULL OR timestamp > ?)
+         ORDER BY timestamp DESC LIMIT ?`,
+      )
+      .all(appId, sinceParam, sinceParam, limit) as RawRow[]
+    return rows.map(rowToOp)
+  }
+
+  /** Return all distinct app IDs that have at least one operation. */
+  getDistinctAppIds(): string[] {
+    const rows = this.db
+      .prepare(`SELECT DISTINCT app_id FROM operations ORDER BY app_id ASC`)
+      .all() as Array<{ app_id: string }>
+    return rows.map((r) => r.app_id)
+  }
+
+  /** Return the number of ops in the last N milliseconds */
+  getOpsInWindow(appId: string, windowMs: number): number {
+    const cutoff = Date.now() - windowMs
+    const row = this.db
+      .prepare(`SELECT COUNT(*) as cnt FROM operations WHERE app_id = ? AND created_at > ?`)
+      .get(appId, cutoff) as { cnt: number }
+    return row.cnt
+  }
+
   close(): void {
     this.db.close()
   }

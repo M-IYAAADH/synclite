@@ -1,3 +1,5 @@
+import { createServer } from 'http'
+import type { IncomingMessage, ServerResponse, Server } from 'http'
 import { WebSocketServer, WebSocket } from 'ws'
 import { randomUUID } from 'crypto'
 import { RelayDB } from './db.js'
@@ -18,6 +20,7 @@ export class RelayServer {
   private db: RelayDB
   private broadcaster: Broadcaster
   private log: Logger
+  private httpServer: Server
 
   // Rate limiting: connectionId → { count, resetAt }
   private rateLimits = new Map<string, { count: number; resetAt: number }>()
@@ -28,8 +31,10 @@ export class RelayServer {
     this.db = new RelayDB(config.databasePath)
     this.broadcaster = new Broadcaster()
 
+    this.httpServer = createServer((req, res) => this.handleHttpRequest(req, res))
+
     this.wss = new WebSocketServer({
-      port: config.port,
+      server: this.httpServer,
       maxPayload: config.maxPayloadBytes,
     })
 
@@ -53,6 +58,8 @@ export class RelayServer {
         }
       }
     }, 60_000)
+
+    this.httpServer.listen(config.port)
   }
 
   private handleConnection(connectionId: string, ws: WebSocket): void {
@@ -199,6 +206,93 @@ export class RelayServer {
     this.send(ws, { type: 'auth:ok', deviceId })
   }
 
+  handleHttpRequest(req: IncomingMessage, res: ServerResponse): void {
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', '*')
+
+    // Handle OPTIONS preflight
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204)
+      res.end()
+      return
+    }
+
+    const url = new URL(req.url ?? '/', 'http://localhost')
+    const pathname = url.pathname
+
+    try {
+      if (req.method === 'GET' && pathname === '/health') {
+        this.jsonResponse(res, 200, { status: 'ok', uptime: process.uptime() })
+        return
+      }
+
+      if (req.method === 'GET' && pathname === '/api/apps') {
+        this.jsonResponse(res, 200, { apps: this.db.getDistinctAppIds() })
+        return
+      }
+
+      if (req.method === 'GET' && pathname === '/api/stats') {
+        const appId = url.searchParams.get('appId')
+        if (!appId) {
+          this.jsonResponse(res, 400, { error: 'appId required' })
+          return
+        }
+        const connectedClients = this.broadcaster.countForApp(appId)
+        const totalOps = this.db.getOperationCount(appId)
+        const latestTimestamp = this.db.getLatestTimestamp(appId)
+        const opsLastMinute = this.db.getOpsInWindow(appId, 60_000)
+        this.jsonResponse(res, 200, { connectedClients, totalOps, latestTimestamp, opsLastMinute })
+        return
+      }
+
+      if (req.method === 'GET' && pathname === '/api/data') {
+        const appId = url.searchParams.get('appId')
+        if (!appId) {
+          this.jsonResponse(res, 400, { error: 'appId required' })
+          return
+        }
+        const prefix = url.searchParams.get('prefix') ?? undefined
+        const limitParam = url.searchParams.get('limit')
+        const limit = limitParam !== null ? parseInt(limitParam, 10) : 200
+        const data = this.db.getCurrentValues(appId, prefix, limit)
+        this.jsonResponse(res, 200, { data })
+        return
+      }
+
+      if (req.method === 'GET' && pathname === '/api/ops') {
+        const appId = url.searchParams.get('appId')
+        if (!appId) {
+          this.jsonResponse(res, 400, { error: 'appId required' })
+          return
+        }
+        const sinceParam = url.searchParams.get('since')
+        const since = sinceParam !== null ? parseInt(sinceParam, 10) : undefined
+        const limitParam = url.searchParams.get('limit')
+        const limit = limitParam !== null ? parseInt(limitParam, 10) : 100
+        const ops = this.db.getRecentOps(appId, limit, since)
+        this.jsonResponse(res, 200, { ops })
+        return
+      }
+
+      if (req.method === 'GET' && pathname === '/api/clients') {
+        this.jsonResponse(res, 200, { clients: this.broadcaster.getClients() })
+        return
+      }
+
+      this.jsonResponse(res, 404, { error: 'Not found' })
+    } catch (err) {
+      this.log.error(`HTTP error: ${err instanceof Error ? err.message : String(err)}`)
+      this.jsonResponse(res, 500, { error: 'Internal server error' })
+    }
+  }
+
+  private jsonResponse(res: ServerResponse, status: number, body: unknown): void {
+    const json = JSON.stringify(body)
+    res.writeHead(status, { 'Content-Type': 'application/json' })
+    res.end(json)
+  }
+
   private checkRateLimit(connectionId: string): boolean {
     const now = Date.now()
     const limit = this.rateLimits.get(connectionId) ?? { count: 0, resetAt: now + 1000 }
@@ -223,6 +317,7 @@ export class RelayServer {
   close(): Promise<void> {
     clearInterval(this.rateLimitCleanupInterval)
     return new Promise((resolve) => {
+      this.httpServer.close()
       this.wss.close(() => {
         this.db.close()
         resolve()
