@@ -31,6 +31,7 @@ export function registerRelayCommand(program: Command): void {
           maxPayloadBytes: 1_048_576, // 1 MB
           logLevel: opts.debug ? 'debug' : 'info',
           corsOrigins: '*',
+          maxOpsPerSecond: 100,
         })
         spinner.succeed(
           chalk.green(`Relay running`) +

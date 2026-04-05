@@ -10,12 +10,15 @@
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean",
     "e2e": "tsx scripts/e2e.ts",
-    "bench": "tsx scripts/benchmark.ts"
+    "bench": "tsx scripts/benchmark.ts",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
+    "playwright": "^1.59.1",
     "prettier": "^3.2.5",
     "tsx": "^4.21.0",
     "turbo": "^2.0.0",
