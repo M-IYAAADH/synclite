@@ -4,6 +4,7 @@
   "description": "Self-hostable WebSocket relay server for NexSync",
   "type": "module",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
     "nexsync-relay": "./dist/cli.js"
   },
