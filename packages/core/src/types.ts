@@ -1,4 +1,4 @@
-/** Status of the OpenSync connection to the relay. */
+/** Status of the Synclite connection to the relay. */
 export type SyncStatus = 'connecting' | 'connected' | 'offline' | 'syncing'
 
 /** An immutable record of a single write or delete. Appended locally and synced to the relay. */
@@ -15,14 +15,14 @@ export type Operation = {
   timestamp: number
   /** Unique identifier for this device/session */
   deviceId: string
-  /** Optional user identifier passed in OpenSyncConfig */
+  /** Optional user identifier passed in SyncliteConfig */
   userId?: string
   /** True once the relay has confirmed receipt */
   synced: boolean
 }
 
-/** Configuration passed to `new OpenSync(config)` */
-export type OpenSyncConfig = {
+/** Configuration passed to `new Synclite(config)` */
+export type SyncliteConfig = {
   /** WebSocket URL of the relay (e.g. 'wss://relay.example.com'). Required unless offline:true. */
   relay?: string
   /** Namespaces all data on the relay. Defaults to 'default'. */

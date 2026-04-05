@@ -1,11 +1,11 @@
 {
-  "name": "@opensync/relay",
+  "name": "@synclite/relay",
   "version": "0.1.0",
-  "description": "Self-hostable WebSocket relay server for OpenSync",
+  "description": "Self-hostable WebSocket relay server for Synclite",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "opensync-relay": "./dist/cli.js"
+    "synclite-relay": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc --project tsconfig.json",

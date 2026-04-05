@@ -11,7 +11,7 @@ const MAX_OPS_PER_SECOND = 100
 const MAX_OPS_PER_SYNC = 10_000
 
 /**
- * The OpenSync relay server. Accepts WebSocket connections, authenticates clients,
+ * The Synclite relay server. Accepts WebSocket connections, authenticates clients,
  * persists the operation log, and broadcasts ops to peers.
  */
 export class RelayServer {

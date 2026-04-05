@@ -35,7 +35,7 @@ export class WebSocketManager extends EventEmitter<WSEvents> {
     super()
   }
 
-  /** Open the WebSocket connection. Called once on OpenSync init. */
+  /** Open the WebSocket connection. Called once on Synclite init. */
   connect(): void {
     if (this.destroyed) return
     this.openSocket()
@@ -112,7 +112,7 @@ export class WebSocketManager extends EventEmitter<WSEvents> {
 
     ws.addEventListener('error', () => {
       // The close event fires right after, which triggers reconnect.
-      this.emit('error', new Error(`OpenSync: WebSocket error on ${this.url}`))
+      this.emit('error', new Error(`Synclite: WebSocket error on ${this.url}`))
     })
   }
 
@@ -168,7 +168,7 @@ export class WebSocketManager extends EventEmitter<WSEvents> {
 
   private log(msg: string): void {
     if (this.debug) {
-      console.log(`[OpenSync/ws] ${msg}`)
+      console.log(`[Synclite/ws] ${msg}`)
     }
   }
 }

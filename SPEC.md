@@ -1,4 +1,4 @@
-# OpenSync — Full System Specification
+# Synclite — Full System Specification
 > A universal, embeddable, offline-first sync primitive for any app or framework.
 > Priority: Developer experience above all else.
 
@@ -14,10 +14,10 @@ A drop-in TypeScript library that gives any application offline-first data sync 
 
 ### Core Promise To Developers
 ```bash
-npm install @opensync/core
+npm install @synclite/core
 ```
 ```typescript
-const db = new OpenSync({ relay: 'wss://relay.example.com' })
+const db = new Synclite({ relay: 'wss://relay.example.com' })
 db.set('note:1', { title: 'Hello' })  // works offline, syncs automatically
 ```
 That is the entire API surface for basic usage. Everything else is optional.
@@ -33,7 +33,7 @@ That is the entire API surface for basic usage. Everything else is optional.
 └────────────────────────┬────────────────────────────────┘
                          │ imports
 ┌────────────────────────▼────────────────────────────────┐
-│                  @opensync/core                        │
+│                  @synclite/core                        │
 │                                                          │
 │  ┌─────────────┐  ┌──────────────┐  ┌────────────────┐  │
 │  │ Local Store │  │  CRDT Layer  │  │   Sync Queue   │  │
@@ -48,7 +48,7 @@ That is the entire API surface for basic usage. Everything else is optional.
 └────────────────────────┬────────────────────────────────┘
                          │ WebSocket (wss://)
 ┌────────────────────────▼────────────────────────────────┐
-│                  @opensync/relay                        │
+│                  @synclite/relay                        │
 │                                                          │
 │  ┌─────────────┐  ┌──────────────┐  ┌────────────────┐  │
 │  │  WebSocket  │  │  Op Log DB   │  │   Broadcaster  │  │
@@ -57,7 +57,7 @@ That is the entire API surface for basic usage. Everything else is optional.
 └─────────────────────────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────┐
-│              @opensync/dashboard (Next.js)              │
+│              @synclite/dashboard (Next.js)              │
 │         Inspect data • Debug sync • Manage schemas        │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -67,7 +67,7 @@ That is the entire API surface for basic usage. Everything else is optional.
 ## 3. Packages & Monorepo Structure
 
 ```
-opensync/
+synclite/
 ├── packages/
 │   ├── core/              # The main client library
 │   ├── relay/             # The relay server
@@ -94,7 +94,7 @@ opensync/
 
 ---
 
-## 4. Package: @opensync/core
+## 4. Package: @synclite/core
 
 ### Responsibilities
 - Write data to local storage instantly
@@ -116,9 +116,9 @@ opensync/
 
 #### Initialization
 ```typescript
-import { OpenSync } from '@opensync/core'
+import { Synclite } from '@synclite/core'
 
-const db = new OpenSync({
+const db = new Synclite({
   // Required
   relay: 'wss://relay.example.com',
 
@@ -241,7 +241,7 @@ type Operation = {
 
 ---
 
-## 5. Package: @opensync/relay
+## 5. Package: @synclite/relay
 
 ### Responsibilities
 - Accept WebSocket connections from clients
@@ -347,35 +347,35 @@ CMD ["node", "dist/server.js"]
 docker run -p 8080:8080 \
   -e JWT_SECRET=mysecret \
   -v ./data:/app/data \
-  opensync/relay
+  synclite/relay
 ```
 
 #### Manual
 ```bash
-npx @opensync/relay start
+npx @synclite/relay start
 ```
 
 ---
 
-## 6. Package: @opensync/react
+## 6. Package: @synclite/react
 
 ### Responsibilities
 Thin React wrapper over core. Provides hooks that feel native to React developers.
 
 ### System Requirements
 - React 18+ (uses useSyncExternalStore)
-- Peer dependency on @opensync/core
+- Peer dependency on @synclite/core
 
 ### API
 ```typescript
-import { OpenSyncProvider, useOpenSync, useValue, useQuery, useStatus } from '@opensync/react'
+import { SyncliteProvider, useSynclite, useValue, useQuery, useStatus } from '@synclite/react'
 
 // Wrap app
 function App() {
   return (
-    <OpenSyncProvider relay="wss://relay.example.com" userId="user-1">
+    <SyncliteProvider relay="wss://relay.example.com" userId="user-1">
       <MyApp />
-    </OpenSyncProvider>
+    </SyncliteProvider>
   )
 }
 
@@ -393,7 +393,7 @@ function NoteList() {
 
 // Write
 function NoteEditor({ id }) {
-  const db = useOpenSync()
+  const db = useSynclite()
   return (
     <input
       onChange={e => db.set(`note:${id}`, { title: e.target.value })}
@@ -410,9 +410,9 @@ function StatusBar() {
 
 ---
 
-## 7. Package: @opensync/react-native
+## 7. Package: @synclite/react-native
 
-### Same API as @opensync/react but:
+### Same API as @synclite/react but:
 - Uses AsyncStorage as local store backend
 - Uses React Native's NetInfo for connection detection
 - Uses React Native WebSocket (built-in)
@@ -420,39 +420,39 @@ function StatusBar() {
 
 ---
 
-## 8. Package: @opensync/vue
+## 8. Package: @synclite/vue
 
 ### Same pattern as React adapter but using Vue 3 composables:
 ```typescript
 const note = useValue('note:1')        // Ref<object | null>
 const notes = useQuery('note:')        // Ref<Record<string, object>>
 const status = useStatus()             // Ref<string>
-const { set, delete: del } = useOpenSync()
+const { set, delete: del } = useSynclite()
 ```
 
 ---
 
-## 9. Package: @opensync/cli
+## 9. Package: @synclite/cli
 
 ### Commands
 ```bash
 # Initialize a new project
-opensync init
+synclite init
 
 # Start local relay for development
-opensync relay dev
+synclite relay dev
 
 # Deploy relay to Fly.io / Railway / Render
-opensync relay deploy --platform fly
+synclite relay deploy --platform fly
 
 # Push schema (future feature)
-opensync schema push
+synclite schema push
 
 # View live sync activity
-opensync logs --relay wss://my-relay.com
+synclite logs --relay wss://my-relay.com
 
 # Check version
-opensync --version
+synclite --version
 ```
 
 ### System Requirements
@@ -531,7 +531,7 @@ docs/
 │   ├── Offline-First Patterns
 │   └── Self-hosting the Relay
 ├── API Reference
-│   ├── OpenSync (core)
+│   ├── Synclite (core)
 │   ├── React Hooks
 │   ├── Vue Composables
 │   └── Relay Config
@@ -555,7 +555,7 @@ This is non-negotiable. The getting started guide must:
 ## 12. App: Demo App
 
 ### Purpose
-A publicly accessible demo at demo.opensync.dev that shows the engine working in real time. The most powerful marketing asset.
+A publicly accessible demo at demo.synclite.dev that shows the engine working in real time. The most powerful marketing asset.
 
 ### What It Shows
 A simple collaborative notes app where:
@@ -568,7 +568,7 @@ A simple collaborative notes app where:
 - Both changes merge correctly, nothing is lost
 
 ### Stack
-- Next.js + @opensync/react
+- Next.js + @synclite/react
 - Deployed to Vercel
 - Uses a public relay (hosted by the project)
 - No login required — uses random session IDs
@@ -606,7 +606,7 @@ Every function in core must have unit tests:
 | Write latency (local) | < 5ms |
 | Sync latency (online, same region) | < 100ms |
 | Reconnect time | < 2s |
-| Bundle size (@opensync/core) | < 50kb gzipped |
+| Bundle size (@synclite/core) | < 50kb gzipped |
 | Relay: concurrent connections | 1,000+ per instance |
 | Relay: operations per second | 10,000+ |
 | Local storage limit | 50MB default (configurable) |
@@ -644,7 +644,7 @@ MIT — most permissive, maximum adoption
 
 ### Repository Structure
 ```
-opensync/
+synclite/
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml          # Run tests on every PR
@@ -700,19 +700,19 @@ pnpm lint             # lint all packages
 ## 18. Phase Roadmap
 
 ### Phase 1 — Core (Build First)
-- [ ] @opensync/core — local store, CRDT, queue, WebSocket manager
-- [ ] @opensync/relay — WebSocket server, SQLite op log, broadcaster
+- [ ] @synclite/core — local store, CRDT, queue, WebSocket manager
+- [ ] @synclite/relay — WebSocket server, SQLite op log, broadcaster
 - [ ] Basic README
 
 ### Phase 2 — Developer Experience
-- [ ] @opensync/react — hooks
+- [ ] @synclite/react — hooks
 - [ ] Demo app — collaborative notes
 - [ ] Quick Start docs
 
 ### Phase 3 — Ecosystem
-- [ ] @opensync/vue
-- [ ] @opensync/react-native
-- [ ] @opensync/cli
+- [ ] @synclite/vue
+- [ ] @synclite/react-native
+- [ ] @synclite/cli
 - [ ] Full documentation site
 
 ### Phase 4 — Production Hardening
@@ -738,7 +738,7 @@ Every major task must be committed to Git immediately after completion. This kee
 ### Initial Setup (run once)
 ```bash
 git init
-git remote add origin https://github.com/yourusername/opensync.git
+git remote add origin https://github.com/yourusername/synclite.git
 ```
 
 ### Commit After Every Major Task
@@ -829,7 +829,7 @@ When building this project, follow these rules:
 
 4. **Every public method needs a JSDoc comment.** Developers should get inline documentation in their IDE without opening the docs site.
 
-5. **Error messages must be helpful.** Instead of `Error: connection failed`, say `OpenSync: Could not connect to relay at wss://example.com. Check that your relay is running and the URL is correct.`
+5. **Error messages must be helpful.** Instead of `Error: connection failed`, say `Synclite: Could not connect to relay at wss://example.com. Check that your relay is running and the URL is correct.`
 
 6. **The relay must be stateless-friendly.** Clients should be able to reconnect to any relay instance. Don't store session state in memory that can't be recovered from the SQLite database.
 

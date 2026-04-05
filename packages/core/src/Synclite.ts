@@ -5,7 +5,7 @@ import { WebSocketManager } from './ws/index.js'
 import { reduceOperations, advanceClock } from './crdt/index.js'
 import { MemoryStore } from './store/MemoryStore.js'
 import type {
-  OpenSyncConfig,
+  SyncliteConfig,
   SyncStatus,
   Operation,
   BatchItem,
@@ -16,7 +16,7 @@ import type {
   RelayMessage,
 } from './types.js'
 
-type OpenSyncEvents = {
+type SyncliteEvents = {
   connected: []
   disconnected: []
   'sync:start': []
@@ -26,16 +26,16 @@ type OpenSyncEvents = {
 }
 
 /**
- * The main OpenSync client. Instantiate once per app.
+ * The main Synclite client. Instantiate once per app.
  *
  * @example
  * ```ts
- * const db = new OpenSync({ relay: 'wss://relay.example.com' })
+ * const db = new Synclite({ relay: 'wss://relay.example.com' })
  * db.set('note:1', { title: 'Hello' }) // instant, syncs automatically
  * const note = await db.get('note:1')
  * ```
  */
-export class OpenSync extends EventEmitter<OpenSyncEvents> {
+export class Synclite extends EventEmitter<SyncliteEvents> {
   private readonly deviceId: string
   private readonly appId: string
   private readonly userId: string | undefined
@@ -64,7 +64,7 @@ export class OpenSync extends EventEmitter<OpenSyncEvents> {
   private keySubscriptions = new Map<string, Set<ChangeCallback>>()
   private prefixSubscriptions = new Map<string, Set<PrefixChangeCallback>>()
 
-  constructor(config: OpenSyncConfig) {
+  constructor(config: SyncliteConfig) {
     super()
 
     this.config = {
@@ -243,7 +243,7 @@ export class OpenSync extends EventEmitter<OpenSyncEvents> {
     } else {
       // IndexedDB — lazily imported to avoid bundling in Node
       void import('./store/IndexedDBStore.js').then(({ IndexedDBStore }) => {
-        this.store = new IndexedDBStore(`opensync-${this.appId}`)
+        this.store = new IndexedDBStore(`synclite-${this.appId}`)
       })
       // Use memory store until IndexedDB is ready (tiny window on startup)
       this.store = new MemoryStore()
@@ -296,7 +296,7 @@ export class OpenSync extends EventEmitter<OpenSyncEvents> {
       case 'auth:error': {
         this.emit(
           'sync:error',
-          new Error(`OpenSync: Relay rejected auth — ${msg.message}`),
+          new Error(`Synclite: Relay rejected auth — ${msg.message}`),
         )
         break
       }
@@ -316,7 +316,7 @@ export class OpenSync extends EventEmitter<OpenSyncEvents> {
       case 'error': {
         this.emit(
           'sync:error',
-          new Error(`OpenSync: Relay error [${msg.code}] — ${msg.message}`),
+          new Error(`Synclite: Relay error [${msg.code}] — ${msg.message}`),
         )
         break
       }
@@ -432,7 +432,7 @@ export class OpenSync extends EventEmitter<OpenSyncEvents> {
 
   private log(msg: string): void {
     if (this.config.debug) {
-      console.log(`[OpenSync] ${msg}`)
+      console.log(`[Synclite] ${msg}`)
     }
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@opensync/core",
+  "name": "@synclite/core",
   "version": "0.1.0",
   "description": "Offline-first sync primitive — local store, CRDT, offline queue, WebSocket sync",
   "type": "module",

@@ -1,6 +1,6 @@
-export { OpenSync } from './OpenSync.js'
+export { Synclite } from './Synclite.js'
 export type {
-  OpenSyncConfig,
+  SyncliteConfig,
   SyncStatus,
   Operation,
   BatchItem,

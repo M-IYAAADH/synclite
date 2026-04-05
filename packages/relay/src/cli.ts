@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Minimal CLI entry point: `npx @opensync/relay start`
- * Full CLI lives in @opensync/cli (Phase 3). This is just the relay bootstrap.
+ * Minimal CLI entry point: `npx @synclite/relay start`
+ * Full CLI lives in @synclite/cli (Phase 3). This is just the relay bootstrap.
  */
 import { RelayServer } from './server.js'
 import { loadConfig } from './config.js'
