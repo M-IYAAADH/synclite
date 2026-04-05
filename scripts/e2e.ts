@@ -295,6 +295,7 @@ async function main() {
     jwtSecret: undefined,       // open (dev) mode
     authWebhook: undefined,
     maxPayloadBytes: 1_048_576,
+    maxOpsPerSecond: 100,
     logLevel: 'error',          // suppress relay noise during tests
     corsOrigins: '*',
   })
