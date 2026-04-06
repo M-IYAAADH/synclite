@@ -11,9 +11,11 @@
     "clean": "turbo run clean",
     "e2e": "tsx scripts/e2e.ts",
     "bench": "tsx scripts/benchmark.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "pnpm --filter @nexsync/relay build && node --test tests/e2e/sync.test.mjs"
   },
   "devDependencies": {
+    "@nexsync/relay": "workspace:*",
+    "@types/ws": "^8.5.0",
     "@playwright/test": "^1.59.1",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
@@ -22,7 +24,8 @@
     "prettier": "^3.2.5",
     "tsx": "^4.21.0",
     "turbo": "^2.0.0",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "ws": "^8.16.0"
   },
   "engines": {
     "node": ">=20.0.0",

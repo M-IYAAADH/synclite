@@ -31,7 +31,9 @@ export function NexSyncProvider({ children, ...config }: NexSyncProviderProps) {
   const [db] = useState(() => new NexSync(config))
 
   useEffect(() => {
-    // Disconnect when the provider unmounts
+    // Reconnect if this effect fires after a previous cleanup (e.g. React Strict Mode
+    // simulates unmount→remount in development, which calls disconnect() on cleanup).
+    db.reconnect()
     return () => {
       db.disconnect()
     }

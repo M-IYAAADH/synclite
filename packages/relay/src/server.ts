@@ -36,6 +36,7 @@ export class RelayServer {
     this.wss = new WebSocketServer({
       server: this.httpServer,
       maxPayload: config.maxPayloadBytes,
+      perMessageDeflate: true,
     })
 
     this.wss.on('connection', (ws, req) => {
@@ -311,6 +312,22 @@ export class RelayServer {
     if (ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify(msg))
     }
+  }
+
+  /**
+   * Resolves with the port the server is actually listening on.
+   * Useful when the server was constructed with port 0 (OS-assigned port).
+   */
+  ready(): Promise<number> {
+    return new Promise((resolve) => {
+      if (this.httpServer.listening) {
+        resolve((this.httpServer.address() as import('net').AddressInfo).port)
+      } else {
+        this.httpServer.once('listening', () => {
+          resolve((this.httpServer.address() as import('net').AddressInfo).port)
+        })
+      }
+    })
   }
 
   /** Gracefully shut down the relay. */

@@ -16,7 +16,7 @@ function parseBytes(s: string): number {
  */
 export function loadConfig(): RelayConfig {
   return {
-    port: parseInt(process.env['PORT'] ?? '8080', 10),
+    port: parseInt(process.env['PORT'] ?? '9090', 10),
     databasePath: process.env['DATABASE_PATH'] ?? './relay.db',
     jwtSecret: process.env['JWT_SECRET'],
     authWebhook: process.env['AUTH_WEBHOOK'],

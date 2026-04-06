@@ -231,6 +231,25 @@ export class NexSync extends EventEmitter<NexSyncEvents> {
   }
 
   /**
+   * Reconnect to the relay if the connection was dropped or explicitly disconnected.
+   * This is a no-op if already connected or connecting.
+   * Useful after calling `disconnect()`, or to recover from React Strict Mode cleanup.
+   */
+  reconnect(): void {
+    if (!this.config.relay || this.config.offline) return
+    if (this.wsManager !== null) return
+    this.authenticated = false
+    this.initWebSocket(this.config.relay)
+    if (this.config.syncInterval > 0 && this.syncIntervalTimer === null) {
+      this.syncIntervalTimer = setInterval(() => {
+        if (this._status === 'connected') {
+          void this.sync()
+        }
+      }, this.config.syncInterval)
+    }
+  }
+
+  /**
    * Permanently close the relay connection and stop all timers.
    */
   disconnect(): void {

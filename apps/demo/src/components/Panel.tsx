@@ -29,8 +29,7 @@ function PanelInner({
 
   const toggleOffline = useCallback(() => {
     if (isOffline) {
-      // Reconnect by forcing a sync — the WebSocket manager handles reconnect automatically
-      void db.sync()
+      db.reconnect()
       setIsOffline(false)
     } else {
       db.disconnect()

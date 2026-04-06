@@ -3,7 +3,7 @@
 import { Panel } from './Panel'
 
 const RELAY_URL =
-  process.env['NEXT_PUBLIC_RELAY_URL'] ?? 'ws://localhost:8080'
+  process.env['NEXT_PUBLIC_RELAY_URL'] ?? 'ws://localhost:9090'
 
 const APP_ID = 'nexsync-demo'
 
